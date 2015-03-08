@@ -4,4 +4,26 @@
 
 {% block body %}
 <h1>Welcome to the Basket:index page</h1>
+    <h1>Koszyk</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>nazwa</th>
+                <th>cena</th>
+                <th></th>
+            </tr></thead>
+        <tbody>
+            {% for product in products_in_basket %}
+                <tr>
+                    <th>{{product.id}}</th>
+                    <th>{{product.name}}</th>
+                    <th>{{product.price}}</th>
+                    <th>{{product.desc}}</th>
+
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
