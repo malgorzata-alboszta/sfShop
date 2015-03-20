@@ -27,7 +27,7 @@ class ProductsController extends Controller
     {
         
         return $this->render('products/index.html.twig', [
-            'products'=> $this->getProducts(),
+            'products'=> $this->getProducts(), //render-wypelnia template wartosciami z tablicy
         ]);
     }
     
@@ -37,7 +37,7 @@ class ProductsController extends Controller
         $file = file('product.txt'); 
         $products = array(); 
         foreach ($file as $p) { 
-            $e = explode(':', trim($p)); 
+            $e = explode(':', trim($p)); //explode - przerabia tekst na tablice; trim - wycina spacje na brzegach
             $products[$e[0]] = array( 
                 'id' => $e[0], 
                 'name' => $e[1],
