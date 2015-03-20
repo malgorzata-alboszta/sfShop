@@ -5,12 +5,12 @@
 {% block body %}
 
     {#aby wyświetlić zapisaną notyfikacje do szablonu index.html.twig należy dodać taki kod:  #}
-    {% for flashMessage in app.session.flashbag.get('notice') %}  
+    {#{% for flashMessage in app.session.flashbag.get('notice') %}  
         <div class="flash-notice alert alert-success"> {{ flashMessage }}</div>  
     {% endfor %}
     {% for flashMessage in app.session.flashbag.get('warning') %}  
         <div class="flash-notice alert alert-danger"> {{ flashMessage }}</div>  
-    {% endfor %}
+    {% endfor %}#}
     
     <h1>Koszyk</h1>
     <table class="table table-striped">
