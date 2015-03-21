@@ -11,6 +11,7 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
+use AppBundle\Entity\Category;
 /**
  * Description of ProductsControler
  *
@@ -19,34 +20,28 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class ProductsController extends Controller
 {
     /** 
-     * @Route("/produkty", name="products_list")
+     * @Route("/produkty/{id}", name="products_list", defaults={"id" = false})
      */
  //put your code here
     
-    public function indexAction()
+    public function indexAction(Category $category=null)
     {
-        
+       
+        if ($category){
+            $products = $this->getDoctrine()
+                    ->getRepository('AppBundle:Product')
+                    ->findBy([
+                        'category' => $category,
+                    ]);
+        } else {
+        $products = $this->getDoctrine()
+        -> getRepository('AppBundle:Product')
+        ->findAll();
+
+
+        }
         return $this->render('products/index.html.twig', [
-            'products'=> $this->getProducts(), //render-wypelnia template wartosciami z tablicy
+            'products'=> $products, 
         ]);
     }
-    
-    
-    private function getProducts()
-    {
-        $file = file('product.txt'); 
-        $products = array(); 
-        foreach ($file as $p) { 
-            $e = explode(':', trim($p)); //explode - przerabia tekst na tablice; trim - wycina spacje na brzegach
-            $products[$e[0]] = array( 
-                'id' => $e[0], 
-                'name' => $e[1],
-                'price' => $e[2],
-                'desc' => $e[3],
-            ); 
-        }
-        
-        return $products;
-    }
-    
 }

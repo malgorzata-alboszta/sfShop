@@ -12,7 +12,8 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    {% set currentPath = path(app.request.attributes.get('_route')) %}
+                    {#{% set currentPath = path(app.request.attributes.get('_route')) %}#}
+                    {% set currentPath =' '%}
                     <ul class="nav nav-tabs">
                         <li role="presentation"
                             {% if currentPath == path('homepage') %}
@@ -34,7 +35,7 @@
             </div>
             <div class="row">
                 <div class="col-md-2">
-                    Left side
+                    {{render(controller('AppBundle:Category:list'))}}
                 </div>
                 <div class="col-md-10"> 
                         {% for flashMessage in app.session.flashbag.get('notice') %}
