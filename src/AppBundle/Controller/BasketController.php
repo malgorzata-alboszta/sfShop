@@ -67,22 +67,22 @@ class BasketController extends Controller {
      * @Template()
      */
     public function removeAction(Request $request, $id) {
-
-        $session = $request->getSession();
+        //usuniecie usuwa calkowicie!
+        $session = $request->getSession(); //$session = $request->get('session')
         $basket = $session->get('basket', array());
-        if (isset($basket[$id]) && $basket[$id] > 0) { 
-            $basket[$id] -= 1;
-        } else {
-            $this->addFlash('warning', "Produktu o id: ${id} nie ma w koszyku"); 
-
-            return $this->redirectToRoute('basket'); 
+        if (!array_key_exists($id, $basket)) { //sprawdza czy taki klucz nieistnieje bo jest '!'
+        $this->addFlash('notice', 'Produkt nieistnieje'); 
+        return $this->redirectToRoute('basket');
         }
-
-        $session->set('basket', $basket);
-        $this->addFlash('notice', "Produkt o id: ${id} został usuniety z koszyka");
-
-        return $this->redirectToRoute('basket'); 
+        unset($basket[$id]);
+        $session->set('basket',$basket);
+        $product = $this->getProduct($id);
+        $this->addFlash('notice','Produkt' . $product['name'] . ' został usuniety z koszyka');
+        return $this->redirectToRoute('basket');
+            
     }
+    
+
 
     /**
      * @Route("/koszyk/{id}/zaktualizuj-ilosc/{quantity}")
@@ -134,4 +134,8 @@ class BasketController extends Controller {
         return $products;
     }
 
+    private function getProduct($id) {
+        $products = $this->getProducts();
+        return $products[$id];
+    }
 }
