@@ -121,17 +121,25 @@ class BasketController extends Controller {
 
     /**
      * @Route("/koszyk/wyczysc", name="basket_clear")
-     * @Template()
+     * 
      */
-    public function clearAction(Request $request) {
-
-        $session = $request->getSession();
-
-        $session->set('basket', array());
-        $this->addFlash('notice', 'I pozamiatane :)'); 
-
+    
+    public function clearAction(){
+        $this->get('basket')
+             ->clear(); 
+        
+        $this->addFlash('notice', 'I pozamiatane :)');
         return $this->redirectToRoute('basket');
     }
+//    public function clearAction(Request $request) {
+//
+//        $session = $request->getSession();
+//
+//        $session->set('basket', array());
+//        $this->addFlash('notice', 'I pozamiatane :)'); 
+//
+//        return $this->redirectToRoute('basket');
+//    }
 
     /**
      * @Route("/koszyk/kup")

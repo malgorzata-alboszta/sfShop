@@ -13,6 +13,9 @@
     {% endfor %}#}
     
     <h1>Koszyk</h1>
+    {% if basket.products %}
+            <a href="{{path('basket_clear')}}" title='Wyczysc koszyk' class="btn btn-danger">Wyczysc</a>
+{% endif %}
     <table class="table table-striped">
         <thead>
             <tr>
@@ -39,8 +42,8 @@
             {% endfor %}
         </tbody>
     </table>
-{% if basket.products %}
-            <a href="{{path('basket_clear')}}" class="btn btn-danger pull-right">Wyczysc</a>
-{% endif %}
+{#{% if basket.products %}
+            <a href="{{path('basket_clear')}}" title='Wyczysc koszyk' class="btn btn-danger">Wyczysc</a>
+{% endif %}#}
 
             {% endblock %}

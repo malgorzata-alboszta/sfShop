@@ -63,4 +63,11 @@ class Basket
         return $this;
         
     }
+    
+    public function clear()
+    {
+         $this->session->remove('basket');
+         //$this->$session->set('basket', array());
+         return $this;
+    }
 }
