@@ -48,12 +48,13 @@ class Product
      * @ORM\Column(name="amount", type="integer")
      */
     private $amount;
-
+//to co jest w inverstedBy musi byc w Category.php i potym sie łaczymy miedzy category.php a Product.php
+//inverstedBy jest tym co jest po stronie 'wiele'.    
     /**
      *
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="products")
      */
-    private $category;
+    private $category; //$category jest wykorzystywany jako "category" w mappedBy
     
     
     /**

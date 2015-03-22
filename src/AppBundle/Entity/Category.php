@@ -30,13 +30,17 @@ class Category
      */
     private $name;
     
+    //Product to Product.php, a 'category' private $category z Product.php czyli cecha klasy Product
+    //mappedBy jest po stronie 'Jeden' która łaczy sie z 'wiele' lub 'jeden'. 
+    //to co jest w mapped by to nazwa pola (cechy) z tej drugiej encji (target entity) pod która jest widoczna nasza encja Category w której jestesmy
     /**
      *
-     * @ORM\OneToMany (targetEntity="Product", mappedBy="category")
+     * @ORM\OneToMany (targetEntity="Product", mappedBy="category") 
      */
     private $products;
 
-    public function __construct()
+    public function __construct() 
+//wywoływany przy konstrukcji new Category(). Ustawia domysna wartosc dla cechy products
     {
         $this->products = new ArrayCollection();
         //zamienik dla zwyklej tablicy array. obiekt tablicowy, dostep do szeregu metod pomocniczych, dodawani i usuwanie szybciej
@@ -83,8 +87,8 @@ class Category
      */
     public function addProduct(\AppBundle\Entity\Product $products)
     {
-        $this->products[] = $products;
-
+        $this->products[] = $products; //dodaj nowy element do kolekcji (array collection)
+//[] pod tym znaczkiem jest add.
         return $this;
     }
 

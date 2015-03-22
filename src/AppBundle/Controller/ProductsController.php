@@ -22,8 +22,6 @@ class ProductsController extends Controller
     /** 
      * @Route("/produkty/{id}", name="products_list", defaults={"id" = false})
      */
- //put your code here
-    
     public function indexAction(Category $category=null)
     {
        

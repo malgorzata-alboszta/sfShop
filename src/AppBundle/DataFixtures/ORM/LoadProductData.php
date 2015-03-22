@@ -16,12 +16,12 @@ class LoadProductsData extends AbstractFixture implements OrderedFixtureInterfac
 
     public function load(ObjectManager $manager)
     {
-        $product1 = new Product();
-        $product1->setName('Hdd 1TB Seagate');
+        $product1 = new Product(); //tworze nowa instancje encji o nazwie $product1
+        $product1->setName('Hdd 1TB Seagate'); 
         $product1->setDescription('Opis dysku twardego 1TB');
         $product1->setPrice(230);
         $product1->setAmount(10);
-        $product1->setCategory($this->getReference('category1'));
+        $product1->setCategory($this->getReference('category1')); //pobieram $category1 z LoadCategoryData.php
         $manager->persist($product1);
 
 	$product2 = new Product();
