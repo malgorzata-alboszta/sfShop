@@ -19,18 +19,16 @@
                 <th>Id</th>
                 <th>nazwa</th>
                 <th>cena</th>
-                <th>opis</th>
                 <th>ilosc</th>
                 <th>Akcje(usun)</th>
             </tr></thead>
         <tbody>
-            {% for product in products_in_basket %}
+            {% for product in basket.products %}
                 <tr>
                     <td>{{product.id}}</td>
                     <td>{{product.name}}</td>
                     <td>{{product.price}}</td>
-                    <td>{{product.desc}}</td>
-                    <td>{{product.ilosc}}</td>
+                    <td>{{product.quantity}}</td>
                     <td>
                     <a href="{{path('basket_remove', {'id': product.id})}}" class="btn btn-warning">Usun z koszyka</a></td>
                 </tr>
@@ -41,7 +39,7 @@
             {% endfor %}
         </tbody>
     </table>
-{% if products_in_basket %}
+{% if basket.products %}
             <a href="{{path('basket_clear')}}" class="btn btn-danger pull-right">Wyczysc</a>
 {% endif %}
 
