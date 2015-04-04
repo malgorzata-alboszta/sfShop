@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Product
 {
+
     /**
      * @var integer
      *
@@ -55,8 +56,7 @@ class Product
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="products")
      */
     private $category; //$category jest wykorzystywany jako "category" w mappedBy
-    
-    
+
     /**
      * Get id
      *
@@ -181,4 +181,5 @@ class Product
     {
         return $this->category;
     }
+
 }

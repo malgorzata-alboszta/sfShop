@@ -8,21 +8,22 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ProductType extends AbstractType
 {
-        /**
+
+    /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('category')
-            ->add('name')
-            ->add('description')
-            ->add('price')
-            ->add('amount')
+                ->add('category')
+                ->add('name')
+                ->add('description')
+                ->add('price')
+                ->add('amount')
         ;
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      */
@@ -40,4 +41,5 @@ class ProductType extends AbstractType
     {
         return 'appbundle_product';
     }
+
 }

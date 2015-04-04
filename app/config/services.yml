@@ -11,7 +11,7 @@ services:
         tags:
             - { name: twig.extension }
             
-    basket:
+    sf_basket:
         class: AppBundle\Service\Basket
         arguments:
             session: "@session"
