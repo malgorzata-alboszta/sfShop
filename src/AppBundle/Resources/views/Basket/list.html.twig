@@ -1,0 +1,28 @@
+<div class="list-group">
+    <p class="text-center"><strong> KOSZYK </strong> </p>
+      <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>nazwa</th>
+                <th>cena</th>
+                <th>ilosc</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr> 
+                <td>Suma</td>
+                <td><strong>{{doZaplaty|number_format(2,'.',',')}}</strong></td>
+                <td><strong>{{iloscproduktow}}</strong></td>
+            </tr>
+        </tfoot>
+        <tbody>
+    {% for cokolwiek in  wiecejcokolwiek %}
+        <tr>
+            <td>{{ cokolwiek.name}}</td>
+            <td>{{ cokolwiek.price}}</td>
+            <td>{{cokolwiek.quantity}}</td>
+        </tr>
+    {% endfor %}
+        </tbody>
+      </table>
+</div>

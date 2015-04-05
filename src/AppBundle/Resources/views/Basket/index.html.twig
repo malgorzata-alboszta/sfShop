@@ -33,7 +33,7 @@
                 <td>Suma</td>
                 <td><strong>{{service_basket.countPrice|number_format(2,'.',',')}}</strong></td>
                 <td><strong>{{service_basket.countQuantity}}</strong></td>
-                <td><a href="{{path('basket_index')}}" class="btn btn-success">Zamów</a></td>
+                <td><a href="{{path('basket_order')}}" class="btn btn-success">Zamów</a></td>
             </tr>
         </tfoot>
         {% endif %}

@@ -1,0 +1,33 @@
+{% extends "::base.html.twig" %}
+{% block title %}Opis Produktu{% endblock %}
+{% block body %}
+    <style>
+        .top-buffer { margin-top:20px; }
+    </style>
+   {#{{ dump(opis) }}#}
+   <table class='table table-hover'>
+       <tbody>
+           <tr>
+               <th>Nazwa</th>
+               <td>{{opis.name}}</td>
+           </tr>
+           <tr>
+               <th>Cena</th>
+               <td>{{opis.price|number_format(2,'.',',')}}</td>
+           </tr>
+           <tr>
+               <th>Szczegóły</th>
+               <td>{{opis.description}}</td>
+           </tr>
+           <tr>
+               <th>Kategoria</th>
+               <td>{{opis.category}}</td>
+           </tr>
+           <tr>
+               <th>Aktualnie w magazynie</th>
+               <td>Jest {{opis.amount}} sztuk </td>
+           </tr>
+       </tbody>
+   </table>
+               <div class="row top-buffer"><div class="col-md-12"><p>Zachecamy do zakupu. Więcej informacji o produkcie w salonie</p></div></div>
+{% endblock %}

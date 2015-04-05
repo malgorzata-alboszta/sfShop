@@ -2,11 +2,14 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Entity\Order;
+use AppBundle\Entity\Product;
+use DateTime;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Entity\Product;
 
 class BasketController extends Controller
 {
@@ -54,8 +57,8 @@ class BasketController extends Controller
         try {
             $basket->add($product);
             $this->addFlash('notice', sprintf('Produkt "%s"został dodany', $product->getName()));
-        } catch (\Exception $ex) {
-            $this->addFlash('warning','Jest jakis bład w czasie dodawania produktu:'.$ex->getMessage());
+        } catch (Exception $ex) {
+            $this->addFlash('warning', 'Jest jakis bład w czasie dodawania produktu:' . $ex->getMessage());
         }
 
         return $this->redirectToRoute('basket_index');
@@ -91,7 +94,7 @@ class BasketController extends Controller
 
             $basket->remove($product);
             $this->addFlash('notice', sprintf('Produkt został %s został usuniety z koszyka', $product->getName()));
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             $this->addFlash('notice', $ex->getMessage());
         }
         return $this->redirectToRoute('basket_index');
@@ -186,6 +189,28 @@ class BasketController extends Controller
             'iloscproduktow' => $this->get('sf_basket')->countQuantity(),
             'doZaplaty' => $this->get('sf_basket')->countPrice(),
         );
+    }
+
+    /**
+     * @Route ("/zamow", name="basket_order")
+     * 
+     */
+    public function orderAction()
+    {
+        $order = new Order();
+        $order->setOrderDate(new DateTime());
+        $order->setOrderCost($this->get('sf_basket')->countPrice());
+        foreach ($this->get('sf_basket')->getProducts() as $basketProduct) {
+            $DBProduct = $this->getDoctrine()->getRepository('AppBundle:Product')
+                    ->find($basketProduct['id']);
+            $order->addOrderProduct($DBProduct);
+        }
+        $this->getDoctrine()->getManager()->persist($order);
+        $this->getDoctrine()->getManager()->flush();
+
+        $this->get('sf_basket')->clear();
+        $this->addFlash('notice', 'Twoje zamówienie zostało złożone. Dziekujemy');
+        return $this->redirectToRoute('basket_index');
     }
 
 }
