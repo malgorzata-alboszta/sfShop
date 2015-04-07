@@ -1,0 +1,30 @@
+{% extends "::base.html.twig" %}
+{% block title %}Szczegóły zamówienia{% endblock %}
+{% block body %}
+{#    {{ dump(zamowienie.orderProducts.toArray) }}#}
+    <table class='table table-hover'>
+        <tbody>
+            <tr>
+                <th># zamówienia</th>
+                <td>{{zamowienie.id}}</td>
+            </tr>
+            <tr>
+                <th>Data zamowienia</th>
+                <td>{{zamowienie.orderDate|date('d-m-Y')}}</td>
+            </tr>
+            <tr>
+                <th>Koszt całkowity</th>
+                <td>{{zamowienie.orderCost|number_format(2,'.',',')}}</td>
+            </tr>
+            <tr>
+                <th colspan="2">Produkty zamowione</th>
+            </tr>
+            {% for nowazmienna in zamowienie.orderProducts %}
+            <tr> 
+                <td class="text-right col-md-6">{{nowazmienna.name}}</td>
+                <td class="col-md-6">{{nowazmienna.price}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

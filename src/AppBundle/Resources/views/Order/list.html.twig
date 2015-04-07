@@ -1,0 +1,30 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}AppBundle:Order:list{% endblock %}
+
+{% block body %}
+     <table class="table table-striped">
+        <thead>
+            <tr>
+                <th># zamowienia </th>
+                <th>data zamowienia</th>
+                <th>koszt</th>
+                <th>akcja</th>
+            </tr>
+        </thead>
+        <tbody>
+    {% for zamowienie in lista_zamowien %}
+        <tr>
+            <td>{{zamowienie.id}}</td>
+            <td>{{zamowienie.orderDate|date('d-m-Y')}}</td>
+            <td>{{zamowienie.orderCost}}</td>
+            <td><a href="{{path('order_details',{id:zamowienie.id})}}">Szczegóły</a></td>
+        </tr>
+        {% else %}
+                <tr>
+                    <td colspan='4'>Brak zamówień</td>
+                </tr>
+    {% endfor %}
+        </tbody>
+      </table>
+{% endblock %}
