@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Product
@@ -26,6 +27,10 @@ class Product
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * 
+     * @Assert\NotBlank()
+     * 
+     * @Assert\Length(min=5, minMessage="Nazwa musi miec conajmniej {{ limit }} znaków")
      */
     private $name;
 
@@ -33,6 +38,9 @@ class Product
      * @var string
      *
      * @ORM\Column(name="description", type="text", nullable=true)
+     * 
+     * @Assert\NotNull(message="Prosze wpisac opis")
+     * 
      */
     private $description;
 
@@ -40,20 +48,26 @@ class Product
      * @var string
      *
      * @ORM\Column(name="price", type="decimal", precision=10, scale=2)
+     * 
+     * @Assert\Range(min=0.01, minMessage="Cena musi byc wieksza lub rowna {{ limit }} zł")
      */
-    private $price;
+    private $price = 0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="amount", type="integer")
+     * 
+     * 
      */
-    private $amount;
+    private $amount = 0;
 //to co jest w inverstedBy musi byc w Category.php i potym sie łaczymy miedzy category.php a Product.php
 //inverstedBy jest tym co jest po stronie 'wiele'.    
     /**
      *
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="products")
+     * 
+     * @Assert\NotNull(message="Prosze wybrac kategrorie")
      */
     private $category; //$category jest wykorzystywany jako "category" w mappedBy
 

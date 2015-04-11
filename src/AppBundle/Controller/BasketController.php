@@ -47,10 +47,11 @@ class BasketController extends Controller
      * @Route("/koszyk/{id}/dodaj", name ="basket_add")
      * @Template()
      */
-    public function addAction(Product $product = null)
+    public function addAction(Request $request, Product $product = null)
     {
         if (is_null($product)) {
             $this->addFlash('warning', 'Produkt, który probujesz dodac niezostał znaleziony');
+            
             return $this->redirectToRoute('basket_index');
         }
         $basket = $this->get('sf_basket');
@@ -59,6 +60,7 @@ class BasketController extends Controller
             $this->addFlash('notice', sprintf('Produkt "%s"został dodany', $product->getName()));
         } catch (Exception $ex) {
             $this->addFlash('warning', 'Jest jakis bład w czasie dodawania produktu:' . $ex->getMessage());
+            return $this->redirect($request-> headers->get('referer'));
         }
 
         return $this->redirectToRoute('basket_index');

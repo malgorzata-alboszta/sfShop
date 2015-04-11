@@ -19,7 +19,7 @@ class ProductType extends AbstractType
                 ->add('category')
                 ->add('name')
                 ->add('description')
-                ->add('price')
+                ->add('price', 'money', array('currency' => 'EUR'))
                 ->add('amount')
         ;
     }
