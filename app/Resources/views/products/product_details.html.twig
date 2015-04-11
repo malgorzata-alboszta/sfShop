@@ -4,30 +4,77 @@
     <style>
         .top-buffer { margin-top:20px; }
     </style>
-   {#{{ dump(opis) }}#}
-   <table class='table table-hover'>
-       <tbody>
-           <tr>
-               <th>Nazwa</th>
-               <td>{{opis.name}}</td>
-           </tr>
-           <tr>
-               <th>Cena</th>
-               <td>{{opis.price|number_format(2,'.',',')}}</td>
-           </tr>
-           <tr>
-               <th>Szczegóły</th>
-               <td>{{opis.description}}</td>
-           </tr>
-           <tr>
-               <th>Kategoria</th>
-               <td>{{opis.category}}</td>
-           </tr>
-           <tr>
-               <th>Aktualnie w magazynie</th>
-               <td>Jest {{opis.amount}} sztuk </td>
-           </tr>
-       </tbody>
-   </table>
-               <div class="row top-buffer"><div class="col-md-12"><p>Zachecamy do zakupu. Więcej informacji o produkcie w salonie</p></div></div>
+    {#{{ dump(opis) }}#}
+    <div class="row">
+        <div class="col-md-9">
+
+            <table class='table table-hover pull-left'>
+                <tbody>
+                    <tr>
+                        <th>Nazwa</th>
+                        <td>{{opis.name}}</td>
+                    </tr>
+                    <tr>
+                        <th>Cena</th>
+                        <td>{{opis.price|number_format(2,'.',',')}}</td>
+                    </tr>
+                    <tr>
+                        <th>Szczegóły</th>
+                        <td>{{opis.description}}</td>
+                    </tr>
+                    <tr>
+                        <th>Kategoria</th>
+                        <td>{{opis.category}}</td>
+                    </tr>
+                    <tr>
+                        <th>Aktualnie w magazynie</th>
+                        <td>Jest {{opis.amount}} sztuk </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-3">
+            <div>
+                <img src="http://lorempixel.com/240/200/technics?{{random()}}" alt="" class="img-thumbnail">
+            </div>
+            <div class="text-center top-buffer">
+
+                <a href="{{ path('basket_add', {'id': opis.id}) }}" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-shopping-cart"></span> Koszyk</a>
+            </div>
+        </div>
+    </div>
+    <div class="row top-buffer"><div class="col-md-12"><p>Zachecamy do zakupu. Więcej informacji o produkcie w salonie</p></div></div>
+
+    <h2> Komentarze</h2>
+
+    <form method="post" novalidate>
+
+        <div class="form-group">
+            {{ form_row(form.content) }}
+
+            {#
+                {{ form_label(form.content) }}
+                {{ form_errors(form.content) }}
+                {{ form_widget(form.content) }}
+            #}
+
+        </div>
+
+        {{ form_rest(form) }}
+
+        <input class="btn btn-success" type="submit" value="Dodaj komentarz" />
+
+    </form>
+
+    <br />
+    {% for comment in opis.comments if comment.verified %}
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <p>{{ comment.content }}</p>
+                <small>Dodany {{ comment.createdAt|date('d-m-Y') }}</small>
+            </div>
+        </div>
+    {% else %}
+        <p> Nie ma jeszcze żadnych komentarzy. Dodaj swój jako pierwszy!</p>
+    {% endfor %}
 {% endblock %}

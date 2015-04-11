@@ -14,27 +14,9 @@
     {% for product in products %}
         {% if loop.first or (loop.index % 4) == 0 %}
             <div class="row">
-            {% endif %}
-            <div class="col-sm-6 col-md-3">
-                <div class="thumbnail clearfix">
-                    {#                <img src="http://placehold.it/240x200" alt="" class="img-thumbnail">#}
-                    <img src="http://lorempixel.com/240/200/technics?{{random()}}" alt="" class="img-thumbnail">
-                    <div class="caption">
-                        <h3>{{ product.name }}</h3>
-                        <p>{{ product.description | truncate(50, true, ' (...)') }}</p>
-                        <div class="pull-left">
-                            <p>
-                                <a href="{{ path('basket_add', {'id': product.id}) }}" class="btn btn-primary" role="button">Koszyk</a>
-                                <a href="{{path('products_desc',{'id':product.id})}}" class="btn btn-default" role="button">Pokaż</a>
-                            </p>
-                        </div>
-                        <div class="pull-right">
-                            <h4 class="text-danger">{{ product.price }}</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% if loop.last or (loop.index % 4) == 0 %}
+        {% endif %}
+            {% include 'products/product.html.twig' %}
+        {% if loop.last or (loop.index % 4) == 0 %}
             </div>
         {% endif %}
     {% endfor %}

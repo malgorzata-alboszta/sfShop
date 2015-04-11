@@ -7,7 +7,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Product
- *
+ * 
+ * @author Gosia
+ * 
  * @ORM\Table(name="product")
  * @ORM\Entity(repositoryClass="AppBundle\Entity\ProductRepository")
  */
@@ -29,8 +31,7 @@ class Product
      * @ORM\Column(name="name", type="string", length=255)
      * 
      * @Assert\NotBlank()
-     * 
-     * @Assert\Length(min=5, minMessage="Nazwa musi miec conajmniej {{ limit }} znaków")
+     * @Assert\Length(min=5, minMessage="Tytuł musi mieć conajmniej {{ limit }} znaków.")
      */
     private $name;
 
@@ -39,8 +40,7 @@ class Product
      *
      * @ORM\Column(name="description", type="text", nullable=true)
      * 
-     * @Assert\NotNull(message="Prosze wpisac opis")
-     * 
+     * @Assert\NotBlank()
      */
     private $description;
 
@@ -49,7 +49,8 @@ class Product
      *
      * @ORM\Column(name="price", type="decimal", precision=10, scale=2)
      * 
-     * @Assert\Range(min=0.01, minMessage="Cena musi byc wieksza lub rowna {{ limit }} zł")
+     * @Assert\NotBlank()
+     * @Assert\Range(min=0.01, minMessage="Cena musi być większa lub równa {{ limit }} zł.")
      */
     private $price = 0;
 
@@ -58,18 +59,33 @@ class Product
      *
      * @ORM\Column(name="amount", type="integer")
      * 
-     * 
+     * @Assert\NotBlank()
+     * @Assert\Range(min=0, minMessage="Dostępna ilość sztuk musi być większa lub równa {{ limit }}.")
      */
     private $amount = 0;
-//to co jest w inverstedBy musi byc w Category.php i potym sie łaczymy miedzy category.php a Product.php
-//inverstedBy jest tym co jest po stronie 'wiele'.    
+
     /**
-     *
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="products")
      * 
-     * @Assert\NotNull(message="Prosze wybrac kategrorie")
+     * @Assert\NotNull(message="Proszę wybrać odpowiednią kategorię")
      */
-    private $category; //$category jest wykorzystywany jako "category" w mappedBy
+    private $category;
+
+    /**
+     * @var ArrayCollection
+     * 
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="product")
+     */
+    private $comments;
+
+    /**
+     * 
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getName();
+    }
 
     /**
      * Get id
@@ -195,13 +211,46 @@ class Product
     {
         return $this->category;
     }
-    
+
     /**
-     * 
-     * @return string
+     * Constructor
      */
-    public function __toString()
+    public function __construct()
     {
-        return $this->getName();
+        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
     }
+
+    /**
+     * Add comments
+     *
+     * @param \AppBundle\Entity\Comment $comments
+     * @return Product
+     */
+    public function addComment(\AppBundle\Entity\Comment $comments)
+    {
+        $this->comments[] = $comments;
+
+        return $this;
+    }
+
+    /**
+     * Remove comments
+     *
+     * @param \AppBundle\Entity\Comment $comments
+     */
+    public function removeComment(\AppBundle\Entity\Comment $comments)
+    {
+        $this->comments->removeElement($comments);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
 }

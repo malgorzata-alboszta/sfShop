@@ -2,12 +2,15 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Category;
+use AppBundle\Entity\Comment;
+use AppBundle\Entity\Product;
+use AppBundle\Form\CommentType;
 use AppBundle\Form\ProductType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class ProductsController extends Controller
 {
@@ -48,9 +51,30 @@ class ProductsController extends Controller
      * @Route("/produkty/opis/{id}", name="products_desc")
      * @Template ("products/product_details.html.twig")
      */
-    public function detailsAction(\AppBundle\Entity\Product $product)
+    public function detailsAction(Product $product, Request $request)
     {
-        return array('opis' => $product);
+        $comment = new Comment();
+        $comment->setProduct($product);
+
+        $form = $this->createForm(new CommentType(), $comment);
+
+        $form->handleRequest($request);
+        
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            
+            $em->persist($comment);
+            $em->flush();
+            
+            $this->addFlash('notice', "Komentarz został pomyślnie zapisany i oczekuje na weryfikację.");
+
+            return $this->redirectToRoute('products_desc', ['id' => $product->getId()]);
+        }
+
+        return [
+            'opis' => $product,
+            'form' => $form->createView()
+        ];
     }
 
     /**

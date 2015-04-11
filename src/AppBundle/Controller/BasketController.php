@@ -38,8 +38,17 @@ class BasketController extends Controller
 //        return array(
 //            'products_in_basket' => $productsInBasket,
 //        );
+
+        $basket = $this->get('sf_basket');
+
+        $quantities = $request->request->get('quantity', []);
+
+        foreach ($quantities as $id => $quantity) {
+            $basket->updateQuantity($id, $quantity);
+        }
+
         return array(
-            'service_basket' => $this->get('sf_basket'),
+            'service_basket' => $basket
         );
     }
 
@@ -51,7 +60,7 @@ class BasketController extends Controller
     {
         if (is_null($product)) {
             $this->addFlash('warning', 'Produkt, który probujesz dodac niezostał znaleziony');
-            
+
             return $this->redirectToRoute('basket_index');
         }
         $basket = $this->get('sf_basket');
@@ -60,7 +69,7 @@ class BasketController extends Controller
             $this->addFlash('notice', sprintf('Produkt "%s"został dodany', $product->getName()));
         } catch (Exception $ex) {
             $this->addFlash('warning', 'Jest jakis bład w czasie dodawania produktu:' . $ex->getMessage());
-            return $this->redirect($request-> headers->get('referer'));
+            return $this->redirect($request->headers->get('referer'));
         }
 
         return $this->redirectToRoute('basket_index');

@@ -34,8 +34,8 @@ class Basket
 
     public function add(Product $product, $quantity = 1)
     {
-        if (!$product->getAmount()){
-            throw new \Exception('brak produktu w magazynie',300);
+        if (!$product->getAmount()) {
+            throw new \Exception('brak produktu w magazynie', 300);
         }
         $products = $this->getProducts();
         if (!array_key_exists($product->getId(), $products)) {
@@ -51,6 +51,20 @@ class Basket
 
         $this->session->set('basket', $products);
 
+        return $this;
+    }
+
+    // TODO: przemyśleć czy nie przekazywać produktu zamiast $id
+    // TODO: usuwać dla quantity = 0
+    public function updateQuantity($id, $quantity)
+    {
+        $products = $this->getProducts();
+
+        // aktualizujemy ilość produktów w koszyku
+        $products[$id]['quantity'] = $quantity;
+
+        // zapisujemy dane do sesji
+        $this->session->set('basket', $products);
         return $this;
     }
 

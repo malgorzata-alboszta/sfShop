@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Comment
@@ -12,7 +13,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Comment
 {
-
     /**
      * @var integer
      *
@@ -26,6 +26,9 @@ class Comment
      * @var string
      *
      * @ORM\Column(name="content", type="text")
+     * 
+     * @Assert\NotBlank(message="Proszę wprowadzić treść komentarza.")
+     * @Assert\Length(min=15, minMessage="Komentarz musi posiadać conajmniej {{ limit }} znaków.")
      */
     private $content;
 
@@ -41,23 +44,30 @@ class Comment
      *
      * @ORM\Column(name="nbVoteUp", type="smallint")
      */
-    private $nbVoteUp;
+    private $nbVoteUp = 0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="nbVoteDown", type="smallint")
      */
-    private $nbVoteDown;
+    private $nbVoteDown = 0;
+    
+    /**
+     * @var Product
+     * 
+     * @ORM\ManyToOne(targetEntity="Product", inversedBy="comments")
+     */
+    private $product;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="verified", type="boolean")
      */
-    private $verified;
+    private $verified = false;
 
-    public function __constructor()
+    public function __construct()
     {
         $this->createdAt = new \DateTime("now");
     }
@@ -187,4 +197,26 @@ class Comment
         return $this->verified;
     }
 
+    /**
+     * Set product
+     *
+     * @param \AppBundle\Entity\Product $product
+     * @return Comment
+     */
+    public function setProduct(\AppBundle\Entity\Product $product = null)
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    /**
+     * Get product
+     *
+     * @return \AppBundle\Entity\Product 
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
 }
